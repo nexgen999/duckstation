@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\msvc\vsprops\Configurations.props" />
-
   <ItemGroup>
     <ClInclude Include="include\vixl\aarch32\assembler-aarch32.h">
       <ExcludedFromBuild Condition="'$(Platform)'!='ARM'">true</ExcludedFromBuild>
@@ -139,18 +138,38 @@
     <ClCompile Include="src\cpu-features.cc" />
     <ClCompile Include="src\utils-vixl.cc" />
   </ItemGroup>
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8906836E-F06E-46E8-B11A-74E5E8C7B8FB}</ProjectGuid>
   </PropertyGroup>
-
   <Import Project="..\msvc\vsprops\StaticLibrary.props" />
-
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <VixlPreprocessorDefinitions>VIXL_INCLUDE_TARGET_AARCH64;VIXL_CODE_BUFFER_MALLOC</VixlPreprocessorDefinitions>
     <VixlIncludeDirectories>$(ProjectDir)include\vixl\aarch64</VixlIncludeDirectories>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\include\vixl;$(IncludePath)</IncludePath>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugFast|x64'">
+    <IncludePath>..\include\vixl;$(IncludePath)</IncludePath>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUWP|x64'">
+    <IncludePath>..\include\vixl;$(IncludePath)</IncludePath>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>..\include\vixl;$(IncludePath)</IncludePath>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseLTCG|x64'">
+    <IncludePath>..\include\vixl;$(IncludePath)</IncludePath>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUWP|x64'">
+    <IncludePath>..\include\vixl;$(IncludePath)</IncludePath>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -158,6 +177,5 @@
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)include\vixl;$(VixlIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-  
   <Import Project="..\msvc\vsprops\Targets.props" />
 </Project>

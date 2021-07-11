@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
   <Identity
-    Name="57bcfd1f-31c1-4f8e-bf91-958732a81506"
-    Publisher="CN=Stenzek"
-    Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="57bcfd1f-31c1-4f8e-bf91-958732a81506" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+    Name="38290N-Soft.PlaystationEmulator"
+    Publisher="CN=DBEECBAB-E09C-4284-B5EA-80CDCB791506"
+    Version="0.1.1.0" />
+  <mp:PhoneIdentity PhoneProductId="e93fb4de-05b8-4abe-8b84-5d5d49dd613c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   <Properties>
-    <DisplayName>DuckStation</DisplayName>
-    <PublisherDisplayName>Stenzek</PublisherDisplayName>
+    <DisplayName>PlayStation Emulator</DisplayName>
+    <PublisherDisplayName>libretro</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -18,7 +18,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="DuckStation.App">
-      <uap:VisualElements DisplayName="DuckStation" Description="A project for a C++/WinRT Universal Windows Platform (UWP) app directly implementing CoreApplication"
+      <uap:VisualElements DisplayName="PlayStation Emulator" Description="A project for a C++/WinRT Universal Windows Platform (UWP) app directly implementing CoreApplication"
         Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" BackgroundColor="transparent">
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
         <uap:DefaultTile Square71x71Logo="Assets\SmallTile.png" Wide310x150Logo="Assets\WideTile.png" Square310x310Logo="Assets\LargeTile.png"/>

@@ -55,7 +55,7 @@ CodeBuffer::CodeBuffer(size_t capacity)
                                          -1,
                                          0));
 #else
-#error Unknown code buffer allocator.
+  buffer_ = reinterpret_cast<byte*>(malloc(capacity_));
 #endif
   VIXL_CHECK(buffer_ != NULL);
   // Aarch64 instructions must be word aligned, we assert the default allocator
@@ -84,7 +84,7 @@ CodeBuffer::~CodeBuffer() {
 #elif defined(VIXL_CODE_BUFFER_MMAP)
     munmap(buffer_, capacity_);
 #else
-#error Unknown code buffer allocator.
+    buffer_ = reinterpret_cast<byte*>(malloc(capacity_));
 #endif
   }
 }
@@ -169,7 +169,7 @@ void CodeBuffer::Grow(size_t new_capacity) {
       mremap(buffer_, capacity_, new_capacity, MREMAP_MAYMOVE));
   VIXL_CHECK(buffer_ != MAP_FAILED);
 #else
-#error Unknown code buffer allocator.
+  buffer_ = reinterpret_cast<byte*>(malloc(capacity_));
 #endif
 
   cursor_ = buffer_ + cursor_offset;

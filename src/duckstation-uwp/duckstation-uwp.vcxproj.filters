@@ -278,6 +278,7 @@
       <Filter>Data\inputprofiles</Filter>
     </None>
     <None Include="duckstation-uwp.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="uwp_host_interface.h" />
