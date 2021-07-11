@@ -54,6 +54,7 @@
     <ClCompile Include="xinput_controller_interface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\window_info.h" />
     <ClInclude Include="common_host_interface.h" />
     <ClInclude Include="controller_interface.h" />
     <ClInclude Include="cubeb_audio_stream.h">

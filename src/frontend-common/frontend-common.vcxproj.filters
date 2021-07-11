@@ -75,6 +75,7 @@
     <ClInclude Include="d3d12_host_display.h" />
     <ClInclude Include="imgui_impl_dx12.h" />
     <ClInclude Include="http_downloader_uwp.h" />
+    <ClInclude Include="..\common\window_info.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="font_roboto_regular.inl" />
