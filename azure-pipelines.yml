@@ -22,12 +22,6 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: DownloadSecureFile@1
-  name: mySecureFile
-  displayName: 'Get the pfx file certificate'
-  inputs:
-    secureFile: 'RetroCert.pfx'
-
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
