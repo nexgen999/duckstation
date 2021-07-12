@@ -84,7 +84,7 @@ CodeBuffer::~CodeBuffer() {
 #elif defined(VIXL_CODE_BUFFER_MMAP)
     munmap(buffer_, capacity_);
 #else
-    buffer_ = reinterpret_cast<byte*>(malloc(capacity_));
+    free(buffer_);
 #endif
   }
 }
@@ -169,7 +169,8 @@ void CodeBuffer::Grow(size_t new_capacity) {
       mremap(buffer_, capacity_, new_capacity, MREMAP_MAYMOVE));
   VIXL_CHECK(buffer_ != MAP_FAILED);
 #else
-  buffer_ = reinterpret_cast<byte*>(malloc(capacity_));
+  buffer_ = static_cast<byte*>(realloc(buffer_, new_capacity));
+  VIXL_CHECK(buffer_ != NULL);
 #endif
 
   cursor_ = buffer_ + cursor_offset;
