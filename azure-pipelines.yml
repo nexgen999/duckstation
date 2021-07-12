@@ -35,7 +35,7 @@ steps:
     
       #Import the certificate included in the repo
       Write-Host "Import Certificate" 
-      $pfxpath = './RetroCert.pfx'
+      $pfxpath = '$(build.SourcesDirectory)\RetroCert.pfx'
       $password = 'test'
       Add-Type -AssemblyName System.Security
       $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
