@@ -565,7 +565,7 @@ void HostInterface::SetDefaultSettings(SettingsInterface& si)
   si.SetStringValue("Display", "PostProcessChain", "");
   si.SetFloatValue("Display", "MaxFPS", Settings::DEFAULT_DISPLAY_MAX_FPS);
 
-  si.SetBoolValue("CDROM", "ReadThread", true);
+  si.SetIntValue("CDROM", "ReadaheadSectors", Settings::DEFAULT_CDROM_READAHEAD_SECTORS);
   si.SetBoolValue("CDROM", "RegionCheck", false);
   si.SetBoolValue("CDROM", "LoadImageToRAM", false);
   si.SetBoolValue("CDROM", "MuteCDAudio", false);
@@ -853,8 +853,8 @@ void HostInterface::CheckForSettingsChanges(const Settings& old_settings)
         PGXP::Initialize();
     }
 
-    if (g_settings.cdrom_read_thread != old_settings.cdrom_read_thread)
-      g_cdrom.SetUseReadThread(g_settings.cdrom_read_thread);
+    if (g_settings.cdrom_readahead_sectors != old_settings.cdrom_readahead_sectors)
+      g_cdrom.SetReadaheadSectors(g_settings.cdrom_readahead_sectors);
 
     if (g_settings.memory_card_types != old_settings.memory_card_types ||
         g_settings.memory_card_paths != old_settings.memory_card_paths ||
@@ -910,9 +910,9 @@ void HostInterface::CheckForSettingsChanges(const Settings& old_settings)
   if (g_settings.multitap_mode != old_settings.multitap_mode)
     System::UpdateMultitaps();
 
-  if (m_display && g_settings.display_linear_filtering != old_settings.display_linear_filtering ||
-      g_settings.display_integer_scaling != old_settings.display_integer_scaling ||
-      g_settings.display_stretch != old_settings.display_stretch)
+  if (m_display && (g_settings.display_linear_filtering != old_settings.display_linear_filtering ||
+                    g_settings.display_integer_scaling != old_settings.display_integer_scaling ||
+                    g_settings.display_stretch != old_settings.display_stretch))
   {
     m_display->SetDisplayLinearFiltering(g_settings.display_linear_filtering);
     m_display->SetDisplayIntegerScaling(g_settings.display_integer_scaling);
