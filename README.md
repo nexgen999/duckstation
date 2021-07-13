@@ -15,6 +15,10 @@ CI on commit to repo:
 
 [![Build Status](https://dev.azure.com/Nun-z/Dusckstation%20CI/_apis/build/status/Nun-z.duckstation?branchName=master)](https://dev.azure.com/Nun-z/Dusckstation%20CI/_build/latest?definitionId=35&branchName=master)
 
+Generate and upload MS Store Package update:
+
+[![Build Status](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_apis/build/status/Duckstation%20Generate%20Store%20Package?branchName=main)](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_build/latest?definitionId=36&branchName=main)
+
 DuckStation is an simulator/emulator of the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability. The goal is to be as accurate as possible while maintaining performance suitable for low-end devices. "Hack" options are discouraged, the default configuration should support all playable games with only some of the enhancements having compatibility issues.
 
 A "BIOS" ROM image is required to to start the emulator and to play games. You can use an image from any hardware version or region, although mismatching game regions and BIOS regions may have compatibility issues. A ROM image is not provided with the emulator for legal reasons, you should dump this from your own console using Caetla or other means.
