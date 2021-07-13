@@ -15,7 +15,7 @@ CI on commit to repo:
 
 [![Build Status](https://dev.azure.com/Nun-z/Dusckstation%20CI/_apis/build/status/Nun-z.duckstation?branchName=master)](https://dev.azure.com/Nun-z/Dusckstation%20CI/_build/latest?definitionId=35&branchName=master)
 
-Generate and upload MS Store Package:
+Generate and upload MS Store Package update:
 
 [![Build Status](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_apis/build/status/Duckstation%20Generate%20Store%20Package?branchName=main)](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_build/latest?definitionId=36&branchName=main)
 
