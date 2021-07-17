@@ -2126,7 +2126,8 @@ bool CheckForSBIFile(CDImage* image)
     g_host_interface->ReportError(SmallString::FromFormat(
       g_host_interface->TranslateString(
         "System", "You are attempting to run a libcrypt protected game without an SBI file:\n\n%s: %s\n\nYour dump is "
-                  "incomplete, you must add the SBI file to run this game."),
+                  "incomplete, you must add the SBI file to run this game. \n\n"
+                  "The name of the SBI file must match the name of the disc image."),
       s_running_game_code.c_str(), s_running_game_title.c_str()));
     return false;
   }
@@ -2400,6 +2401,8 @@ void DoRewind()
   {
     s_rewind_load_counter--;
   }
+
+  s_next_frame_time += s_frame_period;
 }
 
 void SaveRunaheadState()

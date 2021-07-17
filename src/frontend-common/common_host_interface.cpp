@@ -2010,6 +2010,12 @@ bool CommonHostInterface::AddRumbleToInputMap(const std::string& binding, u32 co
   return false;
 }
 
+static void DisplayHotkeyBlockedByChallengeModeMessage()
+{
+  g_host_interface->AddOSDMessage(g_host_interface->TranslateStdString(
+    "OSDMessage", "Hotkey unavailable because achievements hardcore mode is active."));
+}
+
 void CommonHostInterface::SetFastForwardEnabled(bool enabled)
 {
   if (!System::IsValid())
@@ -2034,6 +2040,33 @@ void CommonHostInterface::SetTurboEnabled(bool enabled)
                 2.0f);
 }
 
+void CommonHostInterface::SetRewindState(bool enabled)
+{
+  if (!System::IsValid())
+    return;
+
+  if (!IsCheevosChallengeModeActive())
+  {
+    if (!g_settings.rewind_enable)
+    {
+      if (enabled)
+        AddOSDMessage(TranslateStdString("OSDMessage", "Rewinding is not enabled."), 5.0f);
+
+      return;
+    }
+
+    AddOSDMessage(enabled ? TranslateStdString("OSDMessage", "Rewinding...") :
+                            TranslateStdString("OSDMessage", "Stopped rewinding."),
+                  5.0f);
+    System::SetRewinding(enabled);
+    UpdateSpeedLimiterState();
+  }
+  else
+  {
+    DisplayHotkeyBlockedByChallengeModeMessage();
+  }
+}
+
 void CommonHostInterface::RegisterHotkeys()
 {
   RegisterGeneralHotkeys();
@@ -2041,12 +2074,6 @@ void CommonHostInterface::RegisterHotkeys()
   RegisterGraphicsHotkeys();
   RegisterSaveStateHotkeys();
   RegisterAudioHotkeys();
-}
-
-static void DisplayHotkeyBlockedByChallengeModeMessage()
-{
-  g_host_interface->AddOSDMessage(g_host_interface->TranslateStdString(
-    "OSDMessage", "Hotkey unavailable because achievements hardcore mode is active."));
 }
 
 void CommonHostInterface::RegisterGeneralHotkeys()
@@ -2189,25 +2216,12 @@ void CommonHostInterface::RegisterSystemHotkeys()
                        DisplayHotkeyBlockedByChallengeModeMessage();
                    }
                  });
+#endif
 
   RegisterHotkey(StaticString(TRANSLATABLE("Hotkeys", "System")), StaticString("Rewind"),
-                 StaticString(TRANSLATABLE("Hotkeys", "Rewind")), [this](bool pressed) {
-                   if (System::IsValid())
-                   {
-                     if (!IsCheevosChallengeModeActive())
-                     {
-                       AddOSDMessage(pressed ? TranslateStdString("OSDMessage", "Rewinding...") :
-                                               TranslateStdString("OSDMessage", "Stopped rewinding."),
-                                     5.0f);
-                       System::SetRewinding(pressed);
-                     }
-                     else
-                     {
-                       DisplayHotkeyBlockedByChallengeModeMessage();
-                     }
-                   }
-                 });
+                 StaticString(TRANSLATABLE("Hotkeys", "Rewind")), [this](bool pressed) { SetRewindState(pressed); });
 
+#ifndef __ANDROID__
   RegisterHotkey(StaticString(TRANSLATABLE("Hotkeys", "System")), StaticString("ToggleCheats"),
                  StaticString(TRANSLATABLE("Hotkeys", "Toggle Cheats")), [this](bool pressed) {
                    if (pressed && System::IsValid())
@@ -3600,9 +3614,13 @@ bool CommonHostInterface::LoadCheatList(const char* filename)
     return false;
   }
 
-  AddOSDMessage(TranslateStdString("OSDMessage", "Loaded %n cheats from list.", "", cl->GetCodeCount()) +
-                  TranslateStdString("OSDMessage", " %n cheats are enabled.", "", cl->GetEnabledCodeCount()),
-                10.0f);
+  if (cl->GetEnabledCodeCount() > 0)
+  {
+    AddOSDMessage(TranslateStdString("OSDMessage", "%n cheats are enabled. This may result in instability.", "",
+                                     cl->GetEnabledCodeCount()),
+                  30.0f);
+  }
+
   System::SetCheatList(std::move(cl));
   return true;
 }
@@ -3628,7 +3646,7 @@ bool CommonHostInterface::LoadCheatListFromDatabase()
   if (!cl->LoadFromPackage(System::GetRunningCode()))
     return false;
 
-  AddOSDMessage(TranslateStdString("OSDMessage", "Loaded %n cheats from database.", "", cl->GetCodeCount()), 10.0f);
+  Log_InfoPrintf("Loaded %u cheats from database.", cl->GetCodeCount());
   System::SetCheatList(std::move(cl));
   return true;
 }
