@@ -5,12 +5,12 @@
          xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
          IgnorableNamespaces="uap mp">
   <Identity
-    Name="38290N-Soft.PlaystationEmulator"
+    Name="38290N-Soft.PlayStationEmulation"
     Publisher="CN=DBEECBAB-E09C-4284-B5EA-80CDCB791506"
     Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="e93fb4de-05b8-4abe-8b84-5d5d49dd613c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   <Properties>
-    <DisplayName>PlayStation Emulator</DisplayName>
+    <DisplayName>PlayStation Emulation</DisplayName>
     <PublisherDisplayName>libretro</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
