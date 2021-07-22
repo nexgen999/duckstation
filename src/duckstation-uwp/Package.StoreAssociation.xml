@@ -361,10 +361,9 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>38290N-Soft.PlaystationEmulator</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.PlayStationEmulation</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>PlayStation Emulator</ReservedName>
-      <ReservedName>PSX Emulator</ReservedName>
+      <ReservedName>PlayStation Emulation</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
