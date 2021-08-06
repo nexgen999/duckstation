@@ -361,9 +361,9 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>38290N-Soft.PS1Emulator</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.PSXEmulation</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>PS1 Emulator</ReservedName>
+      <ReservedName>PSX Emulation</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
@@ -371,6 +371,8 @@
     <MainPackageIdentityName>38290N-Soft.2J074M6NPW89DF8A</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.32PHTP6BRMDG7GTZ</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.3S65TV6LNTK4LZNM</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.42Test42</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.442Test42</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.5E4DVBFDJZ8R2LX3</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.5NMW40PWQAUSBXO2</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.A0P7FL74U6NRZKD9</MainPackageIdentityName>
@@ -389,6 +391,7 @@
     <MainPackageIdentityName>38290N-Soft.FTP</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.FTPAppUWP</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.FTPDurango</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.FTPEgressUWP</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.FTPTestApp</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.GAIN1KFE2YTAHQ29</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.GD16TPDDDB6S8YWN</MainPackageIdentityName>
@@ -396,18 +399,28 @@
     <MainPackageIdentityName>38290N-Soft.HWYGLGSJ5815DP3H</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.KodiNz</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.KommanderFileManager</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.KommanderUWP</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.LinuxPort</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.lknbvtcfxdfsgvhjkl</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.lknbvtcsegfxdfsgvhjkl</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.MegaUWPFileManager</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.MinerNz</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.MoonlightNz</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.Moonlight2</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.NewAppTest9876543543</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.NewAppTest9876543543adsaefs</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.NewTest2</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.NewTest92</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.NNWI1UH1GUVCZOZR</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.OldTest</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.OldTest22</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PacmanEmulator</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.Pac-manEmulator</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PlayStationEmulation</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PlaystationEmulator</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.PPSSPPEmulation</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.PPSSPPEmulator</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.PS1Emulator</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PSPEmulation</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PSPEmulator</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PSPEmulators</MainPackageIdentityName>
@@ -424,18 +437,30 @@
     <MainPackageIdentityName>38290N-Soft.RetroArchTesting3</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroArchTesting4</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRev</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroReverberation</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroReverberation-Auto-update</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevived</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevived-Auto-update</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevivified</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevivified-AutomatedPackages</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroRevolt</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroRevolt-Auto-update</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevolutions</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevolutions-Auto-update</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRevs</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RXFileExplorer</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.SQWAQNVLFN97ZWEB</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.Testing427</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.Testing428</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.TestingNativeAssembly</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.TestingTesingTesting</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.TestNativeAssembly2</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.TMVKT2MOTZL5PSUN</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.TTester42</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.TTestTestTest</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.UWPFileExplorer</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.UWPFTPApplication</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.UWPFTPEgress</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.UWPFTPServer</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.UWPShoppingApp</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.WVZEXCET1WJAVZXM</MainPackageIdentityName>
@@ -443,5 +468,5 @@
     <MainPackageIdentityName>38290N-Soft.XboxPackageInstaller</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.XboxScreenRecorder</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9P72Z4BDH57J" />
+  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9N2P50820NQL" />
 </StoreAssociation>

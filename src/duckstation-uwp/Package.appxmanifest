@@ -5,12 +5,12 @@
          xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
          IgnorableNamespaces="uap mp">
   <Identity
-    Name="38290N-Soft.PS1Emulator"
+    Name="38290N-Soft.PSXEmulation"
     Publisher="CN=DBEECBAB-E09C-4284-B5EA-80CDCB791506"
     Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="7421a1fb-8ec6-4dff-8773-7bcca0c6c1e1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="769b1d23-3207-4012-928c-52eef853157c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   <Properties>
-    <DisplayName>PS1 Emulator</DisplayName>
+    <DisplayName>PSX Emulation</DisplayName>
     <PublisherDisplayName>libretro</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
