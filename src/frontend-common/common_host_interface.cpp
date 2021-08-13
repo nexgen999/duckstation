@@ -1,4 +1,5 @@
 #include "common_host_interface.h"
+#include "IconsFontAwesome5.h"
 #include "common/assert.h"
 #include "common/audio_stream.h"
 #include "common/byte_stream.h"
@@ -556,8 +557,38 @@ bool CommonHostInterface::CreateHostDisplayResources()
 
   if (!m_display->CreateImGuiContext())
   {
-    Log_ErrorPrintf("Failed to create ImGui device context");
+    ReportError("Failed to create ImGui device context");
     return false;
+  }
+
+  // load text font
+  {
+    std::unique_ptr<ByteStream> stream = OpenPackageFile("resources" FS_OSPATH_SEPARATOR_STR "roboto-regular.ttf",
+                                                         BYTESTREAM_OPEN_READ | BYTESTREAM_OPEN_STREAMED);
+    std::vector<u8> font_data;
+    if (!stream || (font_data = FileSystem::ReadBinaryStream(stream.get()), font_data.empty()))
+    {
+      ReportError("Failed to load text font");
+      m_display->DestroyImGuiContext();
+      return false;
+    }
+
+    ImGuiFullscreen::SetFontData(std::move(font_data));
+  }
+
+  // load icon font
+  {
+    std::unique_ptr<ByteStream> stream = OpenPackageFile("resources" FS_OSPATH_SEPARATOR_STR "fa-solid-900.ttf",
+                                                         BYTESTREAM_OPEN_READ | BYTESTREAM_OPEN_STREAMED);
+    std::vector<u8> font_data;
+    if (!stream || (font_data = FileSystem::ReadBinaryStream(stream.get()), font_data.empty()))
+    {
+      ReportError("Failed to load icon font");
+      m_display->DestroyImGuiContext();
+      return false;
+    }
+
+    ImGuiFullscreen::SetIconFontData(std::move(font_data));
   }
 
   if (m_fullscreen_ui_enabled)
@@ -572,9 +603,7 @@ bool CommonHostInterface::CreateHostDisplayResources()
   if (!m_fullscreen_ui_enabled)
     ImGuiFullscreen::ResetFonts();
 
-  m_logo_texture = m_display->CreateTexture(APP_ICON_WIDTH, APP_ICON_HEIGHT, 1, 1, 1, HostDisplayPixelFormat::RGBA8,
-                                            APP_ICON_DATA, sizeof(u32) * APP_ICON_WIDTH, false);
-  if (!m_logo_texture || !m_display->UpdateImGuiFontTexture())
+  if (!m_display->UpdateImGuiFontTexture())
   {
     Log_ErrorPrintf("Failed to create ImGui font text");
     if (m_fullscreen_ui_enabled)
@@ -584,6 +613,10 @@ bool CommonHostInterface::CreateHostDisplayResources()
     m_logo_texture.reset();
     return false;
   }
+
+  m_logo_texture = FullscreenUI::LoadTextureResource("logo.png", false);
+  if (!m_logo_texture)
+    m_logo_texture = FullscreenUI::LoadTextureResource("duck.png", true);
 
   return true;
 }
@@ -1165,7 +1198,7 @@ void CommonHostInterface::DrawImGuiWindows()
 void CommonHostInterface::DrawFPSWindow()
 {
   if (!(g_settings.display_show_fps | g_settings.display_show_vps | g_settings.display_show_speed |
-        g_settings.display_show_resolution))
+        g_settings.display_show_resolution | System::IsPaused() | IsFastForwardEnabled() | IsTurboEnabled()))
   {
     return;
   }
@@ -1195,7 +1228,8 @@ void CommonHostInterface::DrawFPSWindow()
     position_y += text_size.y + spacing;                                                                               \
   } while (0)
 
-  if (System::GetState() == System::State::Running)
+  const System::State state = System::GetState();
+  if (state == System::State::Running)
   {
     const float speed = System::GetEmulationSpeed();
     if (g_settings.display_show_fps)
@@ -1233,6 +1267,21 @@ void CommonHostInterface::DrawFPSWindow()
       text.Format("%ux%u (%s)", effective_width, effective_height, interlaced ? "interlaced" : "progressive");
       DRAW_LINE(IM_COL32(255, 255, 255, 255));
     }
+
+    if (g_settings.display_show_status_indicators)
+    {
+      const bool rewinding = System::IsRewinding();
+      if (rewinding || IsFastForwardEnabled() || IsTurboEnabled())
+      {
+        text.Assign(rewinding ? ICON_FA_FAST_BACKWARD : ICON_FA_FAST_FORWARD);
+        DRAW_LINE(IM_COL32(255, 255, 255, 255));
+      }
+    }
+  }
+  else if (g_settings.display_show_status_indicators && state == System::State::Paused)
+  {
+    text.Assign(ICON_FA_PAUSE);
+    DRAW_LINE(IM_COL32(255, 255, 255, 255));
   }
 
 #undef DRAW_LINE
@@ -2029,13 +2078,6 @@ void CommonHostInterface::SetFastForwardEnabled(bool enabled)
 
   m_fast_forward_enabled = enabled;
   UpdateSpeedLimiterState();
-
-  if (!m_fullscreen_ui_enabled)
-  {
-    AddOSDMessage(enabled ? TranslateStdString("OSDMessage", "Fast forwarding...") :
-                            TranslateStdString("OSDMessage", "Stopped fast forwarding."),
-                  2.0f);
-  }
 }
 
 void CommonHostInterface::SetTurboEnabled(bool enabled)
@@ -2045,13 +2087,6 @@ void CommonHostInterface::SetTurboEnabled(bool enabled)
 
   m_turbo_enabled = enabled;
   UpdateSpeedLimiterState();
-
-  if (!m_fullscreen_ui_enabled)
-  {
-    AddOSDMessage(enabled ? TranslateStdString("OSDMessage", "Turboing...") :
-                            TranslateStdString("OSDMessage", "Stopped turboing."),
-                  2.0f);
-  }
 }
 
 void CommonHostInterface::SetRewindState(bool enabled)
@@ -3029,7 +3064,6 @@ void CommonHostInterface::SetDefaultSettings(SettingsInterface& si)
                     ControllerInterface::GetBackendName(ControllerInterface::GetDefaultBackend()));
 
   si.SetBoolValue("Display", "InternalResolutionScreenshots", false);
-  si.SetBoolValue("Display", "ShowStatusIndicators", true);
 
 #ifdef WITH_DISCORD_PRESENCE
   si.SetBoolValue("Main", "EnableDiscordPresence", false);
@@ -3314,8 +3348,8 @@ void CommonHostInterface::DisplayLoadingScreen(const char* message, int progress
   // eat the last imgui frame, it might've been partially rendered by the caller.
   ImGui::NewFrame();
 
-  const float logo_width = static_cast<float>(APP_ICON_WIDTH) * scale;
-  const float logo_height = static_cast<float>(APP_ICON_HEIGHT) * scale;
+  const float logo_width = 260.0f * scale;
+  const float logo_height = 260.0f * scale;
 
   ImGui::SetNextWindowSize(ImVec2(logo_width, logo_height), ImGuiCond_Always);
   ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, (io.DisplaySize.y * 0.5f) - (50.0f * scale)),

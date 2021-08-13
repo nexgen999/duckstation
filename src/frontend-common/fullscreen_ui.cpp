@@ -113,7 +113,6 @@ static MainWindowType s_current_main_window = MainWindowType::Landing;
 static std::bitset<static_cast<u32>(FrontendCommon::ControllerNavigationButton::Count)> s_nav_input_values{};
 static bool s_debug_menu_enabled = false;
 static bool s_debug_menu_allowed = false;
-static bool s_show_status_indicators = false;
 static bool s_quick_menu_was_open = false;
 static bool s_was_paused_on_quick_menu_open = false;
 static bool s_about_window_open = false;
@@ -123,7 +122,6 @@ static std::optional<u32> s_open_leaderboard_id;
 //////////////////////////////////////////////////////////////////////////
 // Resources
 //////////////////////////////////////////////////////////////////////////
-static std::unique_ptr<HostDisplayTexture> LoadTextureResource(const char* name, bool allow_fallback = true);
 static bool LoadResources();
 static void DestroyResources();
 
@@ -248,10 +246,7 @@ bool HasActiveWindow()
          ImGuiFullscreen::IsChoiceDialogOpen() || ImGuiFullscreen::IsFileSelectorOpen();
 }
 
-void LoadSettings()
-{
-  s_show_status_indicators = s_host_interface->GetBoolSettingValue("Display", "ShowStatusIndicators", true);
-}
+void LoadSettings() {}
 
 void UpdateSettings()
 {
@@ -462,19 +457,6 @@ bool LoadResources()
       return false;
   }
 
-  {
-    std::unique_ptr<ByteStream> stream = s_host_interface->OpenPackageFile(
-      "resources" FS_OSPATH_SEPARATOR_STR "fa-solid-900.ttf", BYTESTREAM_OPEN_READ | BYTESTREAM_OPEN_STREAMED);
-    if (!stream)
-      return false;
-
-    std::vector<u8> font_data = FileSystem::ReadBinaryStream(stream.get());
-    if (font_data.empty())
-      return false;
-
-    ImGuiFullscreen::SetIconFontData(std::move(font_data));
-  }
-
   return true;
 }
 
@@ -497,7 +479,7 @@ static std::unique_ptr<HostDisplayTexture> LoadTexture(const char* path, bool fr
 {
   std::unique_ptr<ByteStream> stream;
   if (from_package)
-    stream = s_host_interface->OpenPackageFile(path, BYTESTREAM_OPEN_READ);
+    stream = g_host_interface->OpenPackageFile(path, BYTESTREAM_OPEN_READ);
   else
     stream = FileSystem::OpenFile(path, BYTESTREAM_OPEN_READ);
   if (!stream)
@@ -513,7 +495,7 @@ static std::unique_ptr<HostDisplayTexture> LoadTexture(const char* path, bool fr
     return {};
   }
 
-  std::unique_ptr<HostDisplayTexture> texture = s_host_interface->GetDisplay()->CreateTexture(
+  std::unique_ptr<HostDisplayTexture> texture = g_host_interface->GetDisplay()->CreateTexture(
     image.GetWidth(), image.GetHeight(), 1, 1, 1, HostDisplayPixelFormat::RGBA8, image.GetPixels(),
     image.GetByteStride());
   if (!texture)
@@ -538,7 +520,7 @@ std::unique_ptr<HostDisplayTexture> LoadTextureResource(const char* name, bool a
 
   Log_ErrorPrintf("Missing resource '%s', using fallback", name);
 
-  texture = s_host_interface->GetDisplay()->CreateTexture(PLACEHOLDER_ICON_WIDTH, PLACEHOLDER_ICON_HEIGHT, 1, 1, 1,
+  texture = g_host_interface->GetDisplay()->CreateTexture(PLACEHOLDER_ICON_WIDTH, PLACEHOLDER_ICON_HEIGHT, 1, 1, 1,
                                                           HostDisplayPixelFormat::RGBA8, PLACEHOLDER_ICON_DATA,
                                                           sizeof(u32) * PLACEHOLDER_ICON_WIDTH, false);
   if (!texture)
@@ -2541,9 +2523,9 @@ void DrawSettingsWindow()
                                                       "General", "CreateSaveStateBackups", false);
 
         MenuHeading("Display Settings");
-        settings_changed |= ToggleButtonForNonSetting("Show Status Indicators",
-                                                      "Shows persistent icons when turbo is active or when paused.",
-                                                      "Display", "ShowStatusIndicators", true);
+        settings_changed |=
+          ToggleButton("Show Status Indicators", "Shows persistent icons when turbo is active or when paused.",
+                       &g_settings.display_show_status_indicators);
         settings_changed |= RangeButton(
           "Display FPS Limit", "Limits how many frames are displayed to the screen. These frames are still rendered.",
           &s_settings_copy.display_max_fps, 0.0f, 500.0f, 1.0f, "%.2f FPS");
@@ -3420,7 +3402,7 @@ void DrawStatsOverlay()
       DRAW_LINE(g_large_font, g_large_font->FontSize, 0.0f, IM_COL32(255, 255, 255, 255));
     }
 
-    if (s_show_status_indicators)
+    if (g_settings.display_show_status_indicators)
     {
       const bool rewinding = System::IsRewinding();
       if (rewinding || s_host_interface->IsFastForwardEnabled() || s_host_interface->IsTurboEnabled())
@@ -3430,7 +3412,7 @@ void DrawStatsOverlay()
       }
     }
   }
-  else if (s_show_status_indicators && state == System::State::Paused)
+  else if (g_settings.display_show_status_indicators && state == System::State::Paused)
   {
     text.Assign(ICON_FA_PAUSE);
     DRAW_LINE(g_large_font, g_large_font->FontSize * 2.0f, margin, IM_COL32(255, 255, 255, 255));
