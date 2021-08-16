@@ -82,7 +82,8 @@ MainWindow::MainWindow(QtHostInterface* host_interface)
 MainWindow::~MainWindow()
 {
   Assert(!m_display_widget);
-  m_host_interface->setMainWindow(nullptr);
+  if (m_host_interface->getMainWindow() == this)
+    m_host_interface->setMainWindow(nullptr);
 
   Assert(!m_debugger_window);
 }
@@ -92,8 +93,8 @@ void MainWindow::initializeAndShow()
   setIconThemeFromSettings();
 
   m_ui.setupUi(this);
-  setStyleFromSettings();
   setupAdditionalUi();
+  setStyleFromSettings();
   connectSignals();
 
   restoreStateFromConfig();
@@ -562,6 +563,19 @@ std::string MainWindow::getDeviceDiscPath(const QString& title)
   return ret;
 }
 
+void MainWindow::recreate()
+{
+  if (m_emulation_running)
+    m_host_interface->synchronousPowerOffSystem();
+
+  close();
+  m_host_interface->setMainWindow(nullptr);
+
+  MainWindow* new_main_window = new MainWindow(m_host_interface);
+  new_main_window->initializeAndShow();
+  deleteLater();
+}
+
 void MainWindow::onStartDiscActionTriggered()
 {
   std::string path(getDeviceDiscPath(tr("Start Disc")));
@@ -956,8 +970,8 @@ void MainWindow::setupAdditionalUi()
     connect(action, &QAction::triggered, [this, action]() {
       const QString new_language = action->data().toString();
       m_host_interface->SetStringSettingValue("Main", "Language", new_language.toUtf8().constData());
-      QMessageBox::information(this, tr("DuckStation"),
-                               tr("Language changed. Please restart the application to apply."));
+      m_host_interface->reinstallTranslator();
+      recreate();
     });
   }
 
@@ -1307,6 +1321,7 @@ void MainWindow::setTheme(const QString& theme)
   setStyleFromSettings();
   setIconThemeFromSettings();
   updateMenuSelectedTheme();
+  recreate();
 }
 
 void MainWindow::setStyleFromSettings()
