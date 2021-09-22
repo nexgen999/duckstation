@@ -5,6 +5,8 @@
 
 **Latest Builds for Windows and Linux (AppImage)** https://github.com/stenzek/duckstation/releases/tag/latest
 
+**Available on Google Play:** https://play.google.com/store/apps/details?id=com.github.stenzek.duckstation
+
 **Game Compatibility List:** https://docs.google.com/spreadsheets/d/1H66MxViRjjE5f8hOl5RQmF5woS1murio2dsLn14kEqo/edit
 
 **Wiki:** https://www.duckstation.org/wiki/
@@ -13,9 +15,13 @@ CI on commit to repo:
 
 [![Build Status](https://dev.azure.com/Nun-z/Dusckstation%20CI/_apis/build/status/Nun-z.duckstation?branchName=master)](https://dev.azure.com/Nun-z/Dusckstation%20CI/_build/latest?definitionId=35&branchName=master)
 
-Generate and upload MS Store Package update:
+Generate and upload MS Store Package:
 
-[![Build Status](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_apis/build/status/Duckstation%20Generate%20Store%20Package?branchName=main)](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_build/latest?definitionId=36&branchName=main)
+[![Build Status](https://dev.azure.com/Nun-z/Generate%20Packages/_apis/build/status/Duckstation%20Store%20Package?branchName=main)](https://dev.azure.com/Nun-z/Generate%20Packages/_build/latest?definitionId=51&branchName=main)
+
+Generate dev mode package:
+
+[![Build Status](https://dev.azure.com/Nun-z/Generate%20Packages/_apis/build/status/Duckstation%20Dev%20Package?branchName=main)](https://dev.azure.com/Nun-z/Generate%20Packages/_build/latest?definitionId=52&branchName=main)
 
 DuckStation is an simulator/emulator of the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability. The goal is to be as accurate as possible while maintaining performance suitable for low-end devices. "Hack" options are discouraged, the default configuration should support all playable games with only some of the enhancements having compatibility issues.
 
@@ -24,9 +30,6 @@ A "BIOS" ROM image is required to to start the emulator and to play games. You c
 ## Latest News
 Older entries are available at https://github.com/stenzek/duckstation/blob/master/NEWS.md
 
-- 2021/07/25: Ability to boot games directly from CD-ROM added. You may want to reduce the readahead size to reduce hitches on seek/loading.
-- 2021/07/11: UWP/Xbox one port added. Follow the instructions in "Universal Windows Platform / Xbox One" below.
-- 2021/07/10: Direct3D 12 hardware renderer added. It does not support downsampling or postprocessing (was mainly intended for Xbox).
 - 2021/06/25: Ability to undelete files from memory card editor added.
 - 2021/06/22: Measured achievements for RetroAchievements added.
 - 2021/06/19: Leaderboards for RetroAchievements added.
@@ -34,6 +37,18 @@ Older entries are available at https://github.com/stenzek/duckstation/blob/maste
 - 2021/05/23: Save RAM (srm) support added to libretro core.
 - 2021/05/23: CD-ROM seek speedup enhancement added.
 - 2021/05/16: Auto fire (toggle pressing) buttons added.
+- 2021/05/02: New pause menu added to Android app.
+- 2021/04/29: Custom aspect ratio support added.
+- 2021/03/20: Memory card editor added to Android app.
+- 2021/03/17: Add support for loading **homebrew** PBP images. PSN images are not loadable due to potential legal issues surrounding the encryption.
+- 2021/03/14: Multiple controllers, multitap, and external controller vibration added to Android app. You will need to rebind your controllers.
+- 2021/03/14: RetroAchievements added to Android app.
+- 2021/03/03: RetroAchievements are now available. You can now log in to your retroacheivements.org account in DuckStation and gain points in supported games. Currently only for Windows/Linux/Mac, Android will be added in the future.
+- 2021/03/03: Multitap is now supported for up to 8 controllers. You can choose which of the two main controller ports have taps connected in Console Settings and bind controllers in Controller Settings.
+- 2021/03/03: Ability to add/remove touchscreen controller buttons and change opacity added for the Android app.
+- 2021/01/31: "Fullscreen UI" added, aka "Big Duck/TV Mode". This interface is fully navigatible with a controller. Currently it's limited to the NoGUI frontend, but it will be available directly in the Qt frontend in the near future, with more features being added (e.g. game grid) as well.
+- 2021/01/24: Runahead added - work around input lag in some games by running frames ahead of time and backtracking on input. DuckStation's implementation works with upscaling and the hardware renderers, but you still require a powerful computer for higher frame counts.
+- 2021/01/24: Rewind added - you can now "smooth rewind" (but not for long), or "skip rewind" (for much long) while playing.
 
 ## Features
 
@@ -47,7 +62,7 @@ DuckStation features a fully-featured frontend built using Qt, as well as a full
 Other features include:
 
  - CPU Recompiler/JIT (x86-64, armv7/AArch32 and AArch64)
- - Hardware (D3D11, D3D12, OpenGL, Vulkan) and software rendering
+ - Hardware (D3D11, OpenGL, Vulkan) and software rendering
  - Upscaling, texture filtering, and true colour (24-bit) in hardware renderers
  - PGXP for geometry precision, texture correction, and depth buffer emulation
  - Adaptive downsampling filter
@@ -55,7 +70,7 @@ Other features include:
  - "Fast boot" for skipping BIOS splash/intro
  - Save state support
  - Windows, Linux, **highly experimental** macOS support
- - Supports bin/cue images, raw bin/img files, MAME CHD, single-track ECM, MDS/MDF, and unencrypted PBP formats.
+ - Supports bin/cue images, raw bin/img files, and MAME CHD formats.
  - Direct booting of homebrew executables
  - Direct loading of Portable Sound Format (psf) files
  - Digital and analog controllers for input (rumble is forwarded to host)
@@ -102,29 +117,11 @@ To set up:
 
 The Qt frontend includes an automatic update checker. Builds downloaded after 2020/08/07 will automatically check for updates each time the emulator starts, this can be disabled in Settings. Alternatively, you can force an update check by clicking `Help->Check for Updates`.
 
-### Universal Windows Platform / Xbox One
-
-The DuckStation fullscreen UI is available for the Universal Windows Platform and Xbox One.
-
-To use on Xbox One:
-
-1. Ensure your console is in developer mode. You will need to purchase a developer license from Microsoft.
-2. Download the duckstation-uwp.appx file.
-3. Navigate to the device portal for your console (displayed in the home screen).
-4. Install the appx file by clicking Add in the main page.
-5. Set the app to Game mode instead of App mode: Scroll down to DuckStation in the listinng, press the `Change View` button, select `View Details`, and change `App` to `Game`.
-6. Upload a BIOS image to the local state directory for DuckStation, or place your BIOS image on a removable USB drive. If using a USB drive, you will need to set the BIOS path in DuckStation's settings to point to this directory.
-7. Add games to the local state games directory, or use a removable USB drive. Again, you will have to register this path in Game List Settings for it to scan.
-8. Launch the app, and enjoy. By default, the `Change View` button will open the quick menu.
-9. Don't forget to enable enhancements, an Xbox One S can do 8x resolution scale with 4K output, Series consoles can go higher.
-
-**NOTE:** I'd recommend using a USB drive for saving memory cards, as the local state directory will be removed when you uninstall the app.
-
 ### Linux
 
-DuckStation does support Linux, but no support will be provided by the developer due to the huge range and variance of distributions. AppImage builds are provided, but we are not obliged to provide any assistance or investigate any issues, i.e. use at your own risk. However, these binaries may be incompatible with older Linux distros (e.g. Ubuntu distros earlier than 20.04 LTS) due to older distros not providing newer versions of the C/C++ standard libraries required by the AppImage binaries. If you are using a packaged version of DuckStation from another source, please do not ask us for assistance and speak to your packager instead.
-
 #### Binaries
+
+Prebuilt binaries for 64-bit Linux distros are available for download in the AppImage format. However, these binaries may be incompatible with older Linux distros (e.g. Ubuntu distros earlier than 18.04.4 LTS) due to older distros not providing newer versions of the C/C++ standard libraries required by the AppImage binaries.
 
 **Linux users are encouraged to build from source when possible and optionally create their own AppImages for features such as desktop integration if desired.**
 
@@ -143,14 +140,7 @@ If anyone is willing to volunteer to support the platform to ensure users have a
 
 ### Android
 
-You will need a device with armv7 (32-bit ARM), AArch64 (64-bit ARM), or x86_64 (64-bit x86). 64-bit is preferred, the requirements are higher for 32-bit, you'll probably want at least a 1.5GHz CPU.
-
-Google Play is the preferred distribution mechanism and will result in smaller download sizes: https://play.google.com/store/apps/details?id=com.github.stenzek.duckstation
-
-**No support is provided for the Android app**, it is free and your expectations should be in line with that. Please **do not** email me about issues about it, they will be ignored. This repository should also
-not be used to raise issues about the app, as it does not contain the app code, only the desktop versions.
-
-If you must use an APK, download links are:
+A prebuilt APK is now available for Android. You will need a device with armv7 (32-bit ARM), AArch64 (64-bit ARM), or x86_64 (64-bit x86). 64-bit is preferred, the requirements are higher for 32-bit, you'll probably want at least a 1.5GHz CPU.
 
 Download link: https://www.duckstation.org/android/duckstation-android.apk
 
@@ -169,7 +159,7 @@ If you have an external controller, you will need to map the buttons and sticks 
 
 DuckStation is available as a libretro core, which can be loaded into a frontend such as RetroArch. It supports most features of the full frontend, within the constraints and limitations of being a libretro core.
 
-The libretro core is provided under the terms of the Creative Commons Attribution-NonCommercial-NoDerivatives International License (BY-NC-ND 4.0, https://creativecommons.org/licenses/by-nc-nd/4.0/). COMMERCIAL DISTRIBUTION AND USAGE IS PROHIBITED. By downloading the libretro core, you agree that you will not distribute or utilize it with any paid applications, services, or products. This includes server side use in streaming environments. Put simply, it is free for personal use, but you are not allowed to utilize DuckStation to make money.
+The DuckStation libretro core is not covered by the GPL license, but is still completely free to use. The only restriction is that COMMERCIAL DISTRIBUTION IS PROHIBITED. By downloading the libretro core, you agree that you will not distribute it with any paid applications, services, or products.
 
 The core is maintained by a third party, and is not provided as part of the GitHub release. You can download the core through the RetroArch buildbot/core updater, or from the links below. The changelog is viewable at https://www.duckstation.org/libretro/changelog.txt
 
