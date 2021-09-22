@@ -15,9 +15,13 @@ CI on commit to repo:
 
 [![Build Status](https://dev.azure.com/Nun-z/Dusckstation%20CI/_apis/build/status/Nun-z.duckstation?branchName=master)](https://dev.azure.com/Nun-z/Dusckstation%20CI/_build/latest?definitionId=35&branchName=master)
 
-Generate and upload MS Store Package update:
+Generate and upload MS Store Package:
 
-[![Build Status](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_apis/build/status/Duckstation%20Generate%20Store%20Package?branchName=main)](https://dev.azure.com/Nun-z/Duckstation%20Generate%20Store%20Package/_build/latest?definitionId=36&branchName=main)
+[![Build Status](https://dev.azure.com/Nun-z/Generate%20Packages/_apis/build/status/Duckstation%20Store%20Package?branchName=main)](https://dev.azure.com/Nun-z/Generate%20Packages/_build/latest?definitionId=51&branchName=main)
+
+Generate dev mode package:
+
+[![Build Status](https://dev.azure.com/Nun-z/Generate%20Packages/_apis/build/status/Duckstation%20Dev%20Package?branchName=main)](https://dev.azure.com/Nun-z/Generate%20Packages/_build/latest?definitionId=52&branchName=main)
 
 DuckStation is an simulator/emulator of the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability. The goal is to be as accurate as possible while maintaining performance suitable for low-end devices. "Hack" options are discouraged, the default configuration should support all playable games with only some of the enhancements having compatibility issues.
 
